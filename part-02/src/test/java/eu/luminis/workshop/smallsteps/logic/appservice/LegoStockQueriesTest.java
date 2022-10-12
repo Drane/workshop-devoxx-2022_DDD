@@ -1,6 +1,7 @@
 package eu.luminis.workshop.smallsteps.logic.appservice;
 
 import eu.luminis.workshop.smallsteps.helpers.TestLegoStockRepository;
+import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoParts;
 import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoSetNumber;
 import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoStoreId;
 import eu.luminis.workshop.smallsteps.logic.domainservice.state.IncompleteReturn;
@@ -28,19 +29,19 @@ public class LegoStockQueriesTest {
                 null,
                 null,
                 List.of(
-                        new LegoBox(millenniumFalcon, 42, Map.of("3022", 7, "20105", 1)),
-                        new LegoBox(millenniumFalcon, 37, Map.of("3022", 3, "60581", 1)),
-                        new LegoBox(atAt, 5, Map.of("3022", 2, "18674", 1)),
-                        new LegoBox(r2d2, 8, Map.of("3666", 2, "64799", 1))
+                        new LegoBox(millenniumFalcon, 42, LegoParts.of("3022", 7, "20105", 1)),
+                        new LegoBox(millenniumFalcon, 37, LegoParts.of("3022", 3, "60581", 1)),
+                        new LegoBox(atAt, 5, LegoParts.of("3022", 2, "18674", 1)),
+                        new LegoBox(r2d2, 8, LegoParts.of("3666", 2, "64799", 1))
                 ),
                 null)
         );
         LegoStockQueries queries = new LegoStockQueries(
                 repository);
 
-        Map<String, Integer> pairs = queries.currentlyMissingPartsReport(bussum);
+        LegoParts pairs = queries.currentlyMissingPartsReport(bussum);
 
-        assertThat(pairs).containsExactlyEntriesOf(new LinkedHashMap<>() {{
+        assertThat(pairs.getPartsMap()).containsExactlyEntriesOf(new LinkedHashMap<>() {{
             put("3022", 12);
             put("3666", 2);
             put("18674", 1);
@@ -59,17 +60,17 @@ public class LegoStockQueriesTest {
                 null,
                 null,
                 List.of(
-                        new IncompleteReturn(millenniumFalcon, Map.of("3022", 7, "20105", 1)),
-                        new IncompleteReturn(millenniumFalcon, Map.of("3022", 3, "60581", 1)),
-                        new IncompleteReturn(atAt, Map.of("3022", 2, "18674", 1)),
-                        new IncompleteReturn(r2d2, Map.of("3666", 2, "64799", 1))
+                        new IncompleteReturn(millenniumFalcon, LegoParts.of("3022", 7, "20105", 1)),
+                        new IncompleteReturn(millenniumFalcon, LegoParts.of("3022", 3, "60581", 1)),
+                        new IncompleteReturn(atAt, LegoParts.of("3022", 2, "18674", 1)),
+                        new IncompleteReturn(r2d2, LegoParts.of("3666", 2, "64799", 1))
                 ))
         );
         LegoStockQueries queries = new LegoStockQueries(repository);
 
-        Map<String, Integer> historicallyMostLostParts = queries.historicallyMostLostParts(bussum);
+        LegoParts historicallyMostLostParts = queries.historicallyMostLostParts(bussum);
 
-        assertThat(historicallyMostLostParts)
+        assertThat(historicallyMostLostParts.getPartsMap())
                 .containsExactlyEntriesOf(new LinkedHashMap<>() {{
                     put("3022", 12);
                     put("3666", 2);

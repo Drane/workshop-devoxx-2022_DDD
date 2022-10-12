@@ -1,5 +1,6 @@
 package eu.luminis.workshop.smallsteps.logic.domainservice.state;
 
+import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoParts;
 import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoSetNumber;
 
 import java.util.Map;
@@ -8,9 +9,9 @@ import java.util.Objects;
 public class LegoBox {
     private final LegoSetNumber legoSetNumber;
     private final Integer boxNumber;
-    private final Map<String, Integer> missingParts;
+    private final LegoParts missingParts;
 
-    public LegoBox(LegoSetNumber legoSetNumber, Integer boxNumber, Map<String, Integer> missingParts) {
+    public LegoBox(LegoSetNumber legoSetNumber, Integer boxNumber, LegoParts missingParts) {
         this.legoSetNumber = legoSetNumber;
         this.boxNumber = boxNumber;
         this.missingParts = missingParts;
@@ -24,7 +25,7 @@ public class LegoBox {
         return boxNumber;
     }
 
-    public Map<String, Integer> getMissingParts() {
+    public LegoParts getMissingParts() {
         return missingParts;
     }
 

@@ -1,5 +1,6 @@
 package eu.luminis.workshop.smallsteps.logic.appservice;
 
+import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoParts;
 import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoStoreId;
 import eu.luminis.workshop.smallsteps.logic.domainservice.state.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoParts.mergeAndSum;
 
 @Service
 public class LegoStockQueries {
@@ -17,42 +20,48 @@ public class LegoStockQueries {
         this.repository = repository;
     }
 
-    public Map<String, Integer> currentlyMissingPartsReport(LegoStoreId legoStoreId) {
+    public LegoParts currentlyMissingPartsReport(LegoStoreId legoStoreId) {
         StockState foundState = repository.find(legoStoreId);
 
-        List<Map<String, Integer>> collect = foundState.getIncompleteStock().stream()
+        List<LegoParts> collect = foundState.getIncompleteStock().stream()
                 .map(LegoBox::getMissingParts)
                 .collect(Collectors.toList());
 
-        Map<String, Integer> merged = mergeAndSum(collect);
+        /*LegoParts merged = mergeAndSum(collect);
 
-        return toSortedMap(merged);
+        return toSortedMap(merged);*/
+
+        return  mergeAndSum(collect).toSorted();
     }
 
-    public Map<String, Integer> historicallyMostLostParts(LegoStoreId legoStoreId) {
+    public LegoParts historicallyMostLostParts(LegoStoreId legoStoreId) {
         StockState foundState = repository.find(legoStoreId);
 
-        List<Map<String, Integer>> collect = foundState.getIncompleteReturnHistory().stream()
+        List<LegoParts> collect = foundState.getIncompleteReturnHistory().stream()
                 .map(IncompleteReturn::getMissingParts)
                 .collect(Collectors.toList());
 
-        Map<String, Integer> merged = mergeAndSum(collect);
+/*        LegoParts merged = mergeAndSum(collect);
 
-        return toSortedMap(merged);
+        return toSortedMap(merged);*/
+
+        return mergeAndSum(collect).toSorted();
+
+
 
     }
 
-    private Map<String, Integer> mergeAndSum(List<Map<String, Integer>> collect) {
-        Map<String, Integer> missingParts = new HashMap<>();
+/*    private LegoParts mergeAndSum(List<LegoParts> collect) {
+        LegoParts missingParts = new HashMap<>();
         collect.forEach(item -> {
             item.keySet().forEach(key -> {
-                missingParts.merge(key, item.get(key), Integer::sum);
+                missingParts.mergeAndSum(key, item.get(key), Integer::sum);
             });
         });
         return missingParts;
-    }
+    }*/
 
-    private Map<String, Integer> toSortedMap(Map<String, Integer> missingParts) {
+/*    private LegoParts toSortedMap(LegoParts missingParts) {
         return missingParts.entrySet().stream()
                 .sorted(Comparator.comparing(o -> Integer.valueOf(o.getKey())))
                 .collect(Collectors.toMap(
@@ -62,5 +71,5 @@ public class LegoStockQueries {
                             throw new RuntimeException(String.format("Duplicate key for values %s and %s", v1, v2));
                         },
                         LinkedHashMap::new));
-    }
+    }*/
 }

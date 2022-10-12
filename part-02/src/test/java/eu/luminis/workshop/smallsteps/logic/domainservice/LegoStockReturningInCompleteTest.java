@@ -1,5 +1,6 @@
 package eu.luminis.workshop.smallsteps.logic.domainservice;
 
+import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoParts;
 import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoSetNumber;
 import eu.luminis.workshop.smallsteps.logic.domainservice.helper.SetupLegoTestApp;
 import eu.luminis.workshop.smallsteps.logic.domainservice.state.IncompleteReturn;
@@ -20,8 +21,8 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class LegoStockReturningInCompleteTest {
     SetupLegoTestApp app;
     Map<LegoSetNumber, Map<String, Integer>> partsForLegoSets;
-    Map<String, Integer> missingPartsForMilleniumFalcon;
-    Map<String, Integer> nonMilleniumFalconParts;
+    LegoParts missingPartsForMilleniumFalcon;
+    LegoParts nonMilleniumFalconParts;
 
 
     @BeforeEach
@@ -36,8 +37,8 @@ public class LegoStockReturningInCompleteTest {
                         "20105", 1
                 )
         );
-        missingPartsForMilleniumFalcon = Map.of("20105", 1, "3022", 3);
-        nonMilleniumFalconParts = Map.of("00000", 1,"99999c",2);
+        missingPartsForMilleniumFalcon = LegoParts.from(Map.of("20105", 1, "3022", 3));
+        nonMilleniumFalconParts = LegoParts.from(Map.of("00000", 1,"99999c",2));
     }
 
     @Test
@@ -76,7 +77,7 @@ public class LegoStockReturningInCompleteTest {
         LegoStock handler = new LegoStock(app.harryAuth, new InMemoryLegoPartCatalog(partsForLegoSets), initialState);
 
         assertThatThrownBy(() -> {
-            handler.returnInComplete(new LegoBox(app.millenniumFalcon, 42, Collections.emptyMap()));
+            handler.returnInComplete(new LegoBox(app.millenniumFalcon, 42, LegoParts.from(Collections.emptyMap())));
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -109,11 +110,11 @@ public class LegoStockReturningInCompleteTest {
         LegoStock handler = new LegoStock(app.harryAuth, new InMemoryLegoPartCatalog(partsForLegoSets), initialState);
 
         assertThatThrownBy(() -> {
-            handler.returnInComplete(new LegoBox(app.millenniumFalcon, 42, Map.of("20105",5)));
+            handler.returnInComplete(new LegoBox(app.millenniumFalcon, 42, LegoParts.from(Map.of("20105",5))));
         }).isInstanceOf(IllegalArgumentException.class);
 
         assertThatThrownBy(() -> {
-            handler.returnInComplete(new LegoBox(app.millenniumFalcon, 42, Map.of("20105",0)));
+            handler.returnInComplete(new LegoBox(app.millenniumFalcon, 42, LegoParts.from(Map.of("20105",0))));
         }).isInstanceOf(IllegalArgumentException.class);
 
     }

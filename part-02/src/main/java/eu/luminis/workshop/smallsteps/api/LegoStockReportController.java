@@ -1,6 +1,7 @@
 package eu.luminis.workshop.smallsteps.api;
 
 import eu.luminis.workshop.smallsteps.logic.appservice.LegoStockQueries;
+import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoParts;
 import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoStoreId;
 import eu.luminis.workshop.smallsteps.logic.domainservice.auth.AuthProvider;
 import org.jboss.resteasy.reactive.RestHeader;
@@ -25,7 +26,8 @@ public class LegoStockReportController {
         AuthProvider authProvider = authoriseAndHandleStockMutation(legoAuthParam);
         authProvider.currentAuthentication().mustBeStore();
 
-        return legoStockQueries.currentlyMissingPartsReport(new LegoStoreId(legoStoreIdParam));
+        return legoStockQueries.currentlyMissingPartsReport(new LegoStoreId(legoStoreIdParam))
+                .getPartsMap();
     }
 
     @GetMapping(path = "/stock/report/historically-missing-parts")
@@ -36,6 +38,7 @@ public class LegoStockReportController {
         AuthProvider authProvider = authoriseAndHandleStockMutation(legoAuthParam);
         authProvider.currentAuthentication().mustBeStore();
 
-        return legoStockQueries.historicallyMostLostParts(new LegoStoreId(legoStoreIdParam));
+        return legoStockQueries.historicallyMostLostParts(new LegoStoreId(legoStoreIdParam))
+                .getPartsMap();
     }
 }

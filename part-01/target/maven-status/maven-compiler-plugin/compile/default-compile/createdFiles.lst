@@ -1,0 +1,10 @@
+eu\luminis\workshop\smallsteps\logic\Email.class
+eu\luminis\workshop\smallsteps\persistence\User.class
+eu\luminis\workshop\smallsteps\logic\Password.class
+eu\luminis\workshop\smallsteps\logic\NewUserCommand.class
+eu\luminis\workshop\smallsteps\logic\UserCreatePort.class
+eu\luminis\workshop\smallsteps\persistence\User$UserBuilder.class
+eu\luminis\workshop\smallsteps\GreetingController.class
+eu\luminis\workshop\smallsteps\api\NewUserRequest.class
+eu\luminis\workshop\smallsteps\logic\UserService.class
+eu\luminis\workshop\smallsteps\persistence\UserPersistence.class

@@ -1,5 +1,6 @@
 package eu.luminis.workshop.smallsteps.logic.domainservice.state;
 
+import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoParts;
 import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoSetNumber;
 
 import java.util.Map;
@@ -7,9 +8,9 @@ import java.util.Objects;
 
 public class IncompleteReturn {
     private LegoSetNumber legoSetNumber;
-    private Map<String, Integer> missingParts;
+    private LegoParts missingParts;
 
-    public IncompleteReturn(LegoSetNumber legoSetNumber, Map<String, Integer> missingParts) {
+    public IncompleteReturn(LegoSetNumber legoSetNumber, LegoParts missingParts) {
         this.legoSetNumber = legoSetNumber;
         this.missingParts = missingParts;
     }
@@ -18,7 +19,7 @@ public class IncompleteReturn {
         return legoSetNumber;
     }
 
-    public Map<String, Integer> getMissingParts() {
+    public LegoParts getMissingParts() {
         return missingParts;
     }
 

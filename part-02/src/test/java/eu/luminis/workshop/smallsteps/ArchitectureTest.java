@@ -15,6 +15,7 @@ import static com.tngtech.archunit.library.Architectures.onionArchitecture;
 )
 public class ArchitectureTest {
 
+
     @ArchTest
     static final ArchRule onion_architecture_is_respected = onionArchitecture()
             .domainModels("..logic..domainModel..")
