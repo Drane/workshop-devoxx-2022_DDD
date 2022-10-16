@@ -1,6 +1,7 @@
 package eu.luminis.workshop.smallsteps.logic.domainservice;
 
 import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoBuilderId;
+import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoParts;
 import eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects.LegoSetNumber;
 import eu.luminis.workshop.smallsteps.logic.domainservice.auth.AuthProvider;
 import eu.luminis.workshop.smallsteps.logic.domainservice.catalog.LegoPartCatalog;
@@ -142,12 +143,12 @@ public class LegoStock {
             require(numberOfParts > 0, "You must specify how many parts are missing");
         });
 
-        Map<String, Integer> expectedParts = legoPartCatalog.allPartsForLegoSet(legoBox.getLegoSetNumber());
+        LegoParts expectedParts = legoPartCatalog.allPartsForLegoSet(legoBox.getLegoSetNumber());
         require(!expectedParts.isEmpty(),
                 String.format("Unable to determine parts for lego set %s", legoBox.getLegoSetNumber()));
 
         legoBox.getMissingParts().forEach((partNumber, numberOfParts) -> {
-            require(expectedParts.containsKey(partNumber),
+            require(expectedParts.contains(partNumber),
                     String.format("Some parts reported missing don't belong to lego set %s",
                             legoBox.getLegoSetNumber()));
 

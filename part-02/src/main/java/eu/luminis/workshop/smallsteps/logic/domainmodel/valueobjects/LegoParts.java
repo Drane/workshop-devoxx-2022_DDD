@@ -1,5 +1,6 @@
 package eu.luminis.workshop.smallsteps.logic.domainmodel.valueobjects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import java.util.*;
@@ -12,10 +13,15 @@ public class LegoParts {
     private final Map<String, Integer> partsMap;
 
     private LegoParts(Map<String, Integer> partsMap) {
-//        partsMap.keySet().forEach(partNumber -> {
-//            require(isNumberString(partNumber),
-//                    String.format("Part number \"%s\" is not a number.", partNumber));
-//        });
+/*        partsMap.keySet().forEach(partNumber -> {
+            require(isNumberString(partNumber),
+                    String.format("Part number \"%s\" is not a number.", partNumber));
+        });*/
+        partsMap.values().forEach(count -> {
+            require(count >= 0,
+                    String.format("Part count \"%s\" can not be negative.", count));
+        });
+
         this.partsMap = partsMap;
     }
 
@@ -48,6 +54,10 @@ public class LegoParts {
             mergedLegoParts.merge(key, legoParts.get(key), Integer::sum);
         }));
         return LegoParts.from(mergedLegoParts);
+    }
+
+    public static LegoParts empty() {
+        return from(Collections.emptyMap());
     }
 
     public boolean contains(String partNumber) {
@@ -102,11 +112,16 @@ public class LegoParts {
         return sb.toString();
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
         return partsMap.isEmpty();
     }
 
     public void forEach(BiConsumer<String, Integer> action) {
         partsMap.forEach(action);
+    }
+
+    public int getOrDefault(String partNumber, int defaultCount) {
+        return Optional.ofNullable(get(partNumber)).orElse(defaultCount);
     }
 }

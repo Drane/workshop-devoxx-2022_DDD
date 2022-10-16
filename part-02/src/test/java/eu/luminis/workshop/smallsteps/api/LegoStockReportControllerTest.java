@@ -62,7 +62,7 @@ public class LegoStockReportControllerTest {
                 .get("/stock/report/current-missing-parts")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body(is("{\"3022\":12,\"3666\":2,\"18674\":1,\"20105\":1,\"60581\":1,\"64799\":1}"));
+                .body(is("{\"partsMap\":{\"3022\":12,\"3666\":2,\"18674\":1,\"20105\":1,\"60581\":1,\"64799\":1}}"));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class LegoStockReportControllerTest {
                 .get("/stock/report/historically-missing-parts")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body(is("{\"3022\":10,\"3666\":2,\"18674\":1,\"20105\":1,\"60581\":1,\"64799\":1}"));
+                .body(is("{\"partsMap\":{\"3022\":10,\"3666\":2,\"18674\":1,\"20105\":1,\"60581\":1,\"64799\":1}}"));
     }
 
     @Test

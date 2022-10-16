@@ -19,26 +19,24 @@ public class LegoStockReportController {
     LegoStockQueries legoStockQueries;
 
     @GetMapping(path = "/stock/report/current-missing-parts")
-    public Map<String, Integer> currentMissingParts(
+    public LegoParts currentMissingParts(
             @RestHeader("X-SELECTED-LEGO-STORE") String legoStoreIdParam,
             @RestHeader("X-API-GATEWAY-AUTH") String legoAuthParam) {
 
         AuthProvider authProvider = authoriseAndHandleStockMutation(legoAuthParam);
         authProvider.currentAuthentication().mustBeStore();
 
-        return legoStockQueries.currentlyMissingPartsReport(new LegoStoreId(legoStoreIdParam))
-                .getPartsMap();
+        return legoStockQueries.currentlyMissingPartsReport(new LegoStoreId(legoStoreIdParam));
     }
 
     @GetMapping(path = "/stock/report/historically-missing-parts")
-    public Map<String, Integer> historicallyMissingParts(
+    public LegoParts historicallyMissingParts(
             @RestHeader("X-SELECTED-LEGO-STORE") String legoStoreIdParam,
             @RestHeader("X-API-GATEWAY-AUTH") String legoAuthParam) {
 
         AuthProvider authProvider = authoriseAndHandleStockMutation(legoAuthParam);
         authProvider.currentAuthentication().mustBeStore();
 
-        return legoStockQueries.historicallyMostLostParts(new LegoStoreId(legoStoreIdParam))
-                .getPartsMap();
+        return legoStockQueries.historicallyMostLostParts(new LegoStoreId(legoStoreIdParam));
     }
 }

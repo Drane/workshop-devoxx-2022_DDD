@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LegoPartsTest {
 
@@ -68,6 +67,16 @@ class LegoPartsTest {
         final List<String> strings = new ArrayList(sortedTenRedAndFiveBlueBricks.keySet());
         assertTrue(Integer.parseInt(strings.get(0)) < Integer.parseInt(strings.get(1))
                 && Integer.parseInt(strings.get(1)) < Integer.parseInt(strings.get(2)));
+    }
+
+    @Test
+    public void should_throw_exception_on_negative_count() {
+        IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> LegoParts.from(getPartsMap("123", -1)),
+                "Expected LegoParts.from() to throw IllegalArgumentException on negative count"
+        );
+        assertEquals("Part count \"-1\" can not be negative.", thrown.getMessage());
     }
 
 }

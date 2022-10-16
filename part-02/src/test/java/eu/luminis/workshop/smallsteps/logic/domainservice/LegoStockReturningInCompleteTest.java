@@ -20,7 +20,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 public class LegoStockReturningInCompleteTest {
     SetupLegoTestApp app;
-    Map<LegoSetNumber, Map<String, Integer>> partsForLegoSets;
+    Map<LegoSetNumber, LegoParts> partsForLegoSets;
     LegoParts missingPartsForMilleniumFalcon;
     LegoParts nonMilleniumFalconParts;
 
@@ -29,14 +29,14 @@ public class LegoStockReturningInCompleteTest {
     void setUp() {
         app = new SetupLegoTestApp();
         partsForLegoSets = Map.of(
-                app.millenniumFalcon, Map.of(
+                app.millenniumFalcon, LegoParts.from(Map.of(
                         "3022", 8,
                         "2420", 2,
                         "60581", 2,
                         "4865b", 2,
                         "20105", 1
                 )
-        );
+        ));
         missingPartsForMilleniumFalcon = LegoParts.from(Map.of("20105", 1, "3022", 3));
         nonMilleniumFalconParts = LegoParts.from(Map.of("00000", 1,"99999c",2));
     }
